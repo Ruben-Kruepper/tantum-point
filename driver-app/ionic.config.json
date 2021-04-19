@@ -1,7 +1,0 @@
-{
-  "name": "driver-app",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "vue"
-}
