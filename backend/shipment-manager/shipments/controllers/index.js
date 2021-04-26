@@ -1,9 +1,9 @@
 import makePostShipments from "./post-shipments";
 import makeGetShipmentsById from './get-shipments-id'
 
-export default function makeControllers(shipments) {
+export default function makeControllers(entities) {
     return Object.freeze({
-        postShipments: makePostShipments(shipments),
-        getShipmentsById: makeGetShipmentsById(shipments)
+        postShipments: makePostShipments(entities),
+        getShipmentsById: makeGetShipmentsById(entities)
     })
 }

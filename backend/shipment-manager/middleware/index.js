@@ -2,7 +2,7 @@ import { verify } from 'jsonwebtoken'
 import { errors } from '../utils/errors'
 
 export default Object.freeze({
-
+    jwtAuth
 })
 
 function jwtAuth(req, res, next) {

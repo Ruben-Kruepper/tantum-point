@@ -2,6 +2,8 @@ import express from 'express'
 import { MongoClient } from 'mongodb'
 
 import makeShipmentsRouter from './shipments'
+import makeOrganizationsRouter from './organizations'
+import makeEntities from './entities'
 
 makeApp().then(({ app }) => {
     app.listen(process.env.SHIPMENT_MANAGER_PORT, () => {
@@ -26,14 +28,15 @@ async function makeApp() {
         db = client.db('shipments')
     }
 
-    
+    const entities = makeEntities(db)
     
     const app = express()
 
     app.use(express.json())
     
-    app.use(await makeShipmentsRouter(db))
-    
+    app.use('/shipments', makeShipmentsRouter(entities))
+    app.use('/organizations', makeOrganizationsRouter(entities))
+
     return { app, db }
 }
 

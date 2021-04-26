@@ -1,18 +1,16 @@
 import express from 'express'
 
 import makeControllers from './controllers'
-import makeShipments from './entities/shipments.js'
 
-export default async function makeShipmentsRouter(db) {
-    
-    const shipments = makeShipments(db)
-    const controllers = makeControllers(shipments)
-    
+export default function makeShipmentsRouter(entities) {
+
+    const controllers = makeControllers(entities)
+
     const shipmentsRouter = express.Router()
 
-    shipmentsRouter.post('/shipments', controllers.postShipments)
-    shipmentsRouter.get('/shipments/:shipmentId', controllers.getShipmentsById)
-
+    shipmentsRouter.use(express.raw({ type: 'image/jpeg', limit: '500kb' }))
+    shipmentsRouter.post('/', controllers.postShipments)
+    shipmentsRouter.get('/:shipmentId', controllers.getShipmentsById)
     return shipmentsRouter
 }
 
