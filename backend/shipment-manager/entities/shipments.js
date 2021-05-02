@@ -21,22 +21,24 @@ function makeSaveShipment(db) {
         let record = shipment
         let error = null
         if (error) { throw error }
-        if (shipment._id) {
-            return db.collection('shipments').updateOne({ _id: shipment._id }, shipment, { upsert: true })
-            .then(report => report.ops[0]._id)
+        let shipmentId = shipment._id
+        delete shipment._id
+        if (shipmentId) {
+            return db.collection('shipments').findOneAndUpdate({ _id: ObjectId(shipmentId) }, { $set: shipment }, { upsert: true, returnNewDocument: false })
+            .then(report => report.value)
             .catch(error => {
-                console.error(error)
-                return false
-            })
+                    console.error(error)
+                    return null
+                })
         } else {
             return db.collection('shipments').insertOne(shipment)
-            .then(report => report.ops[0]._id)
-            .catch(error => {
-                console.error(error)
-                return false
-            })
+                .then(report => report.ops[0])
+                .catch(error => {
+                    console.error(error)
+                    return null
+                })
         }
-        
+
     }
 }
 

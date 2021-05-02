@@ -16,7 +16,7 @@ async function makeApp() {
     const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     try {
         await client.connect()
-    } catch (e)  {
+    } catch (e) {
         console.error(e)
         throw Error('DB connection failed. Exiting...')
     }
@@ -29,11 +29,11 @@ async function makeApp() {
     }
 
     const entities = makeEntities(db)
-    
+
     const app = express()
 
-    app.use(express.json())
-    
+    app.use(express.json({ limit: '8mb'}))
+
     app.use('/shipments', makeShipmentsRouter(entities))
     app.use('/organizations', makeOrganizationsRouter(entities))
 
