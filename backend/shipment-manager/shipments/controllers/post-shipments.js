@@ -17,7 +17,7 @@ export default function makePostShipments({ shipments, organizations }) {
         if (shipment) {
             res.status(200).send({ created: shipment })
         } else {
-            res.status(500).send({ errors: errors.serverError })
+            errors.serverError(res)
         }
     }
 }
