@@ -48,9 +48,16 @@ function makeGetShipmentById(db) {
     }
 }
 
+function makeGetShipmentsBySenderOrganization(db) {
+    return function getShipmentsBySenderOrganization(organization) {
+        return db.collection('shipments').find({ senderOrganization: organization}).toArray()
+    }
+}
+
 export default function makeShipments(db) {
     return Object.freeze({
         getShipmentById: makeGetShipmentById(db),
-        saveShipment: makeSaveShipment(db)
+        saveShipment: makeSaveShipment(db), 
+        getShipmentsBySenderOrganization: makeGetShipmentsBySenderOrganization(db)
     })
 }

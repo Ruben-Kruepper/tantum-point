@@ -1,16 +1,15 @@
 import { verify } from 'jsonwebtoken'
-import { errors } from '../utils/errors'
+import errors from '../utils/errors'
 
 export default Object.freeze({
     jwtAuth
 })
 
 function jwtAuth(req, res, next) {
-    const token = req.headers['Authorization']
+    const token = req.headers.authorization
     verify(token, process.env.JWT_SECRET, (error, decoded) => {
         if (error) {
-            res.status(401).send({ error: errors.invalidToken })
-            return
+            return errors.invalidToken(res)
         }
         req.userData = decoded
         next()

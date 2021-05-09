@@ -11,6 +11,7 @@ export default function makePostShipments({ shipments, organizations }) {
         // extract as much shipment info from the ocr as possible
         const ocrData = await azureOCR.queryOCR(Buffer.from(req.body.toString(), 'base64'))
         let shipmentData = extractShipmentData(ocrData)
+        shipmentData.senderOrganization = 'Example Ltd.' // temporary until proper organization logic is added
         shipmentData.destinationCoordinates = await azureMaps.queryAddressCoordinates(shipmentData.destinationAddress)
         shipmentData.editSecret = crypto.randomBytes(32).toString('hex')
         let shipment = await shipments.saveShipment(shipmentData)

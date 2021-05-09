@@ -3,5 +3,6 @@ export default Object.freeze({
     serverError: (res) => res.status(500).send({ error: 'internal server error' }),
     malformedRequest: (res) => res.status(400).send({ error: 'request invalid or malformed' }),
     notFound: (res) => res.status(404).send({ error: 'resource not found' }),
-    unauthorized: (res) => res.status(403).send({ error: 'not authorized' })
+    unauthorized: (res) => res.status(403).send({ error: 'not authorized' }),
+    resourceExists: (res) => res.status(409).send({ error: 'resource exists'})
 })
