@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 export default Object.freeze({
-    queryAddressCoordinates
+    queryAddressCoordinates,
+    queryETA,
 })
 
 async function queryAddressCoordinates(address) {
@@ -18,9 +19,24 @@ async function queryAddressCoordinates(address) {
         })
         .catch(error => {
             console.error(error)
-            return {
-                lat: -1,
-                lon: -1
-            }
+            return null
+        })
+}
+
+async function queryETA(position, destination) {
+    return axios.get('https://atlas.microsoft.com/route/directions/json', {
+        params: {
+            'subscription-key': process.env.AZURE_MAPS_KEY,
+            'api-version': '1.0',
+            'query': `${position.lat},${position.lon}:${destination.lat},${destination.lon}`,
+            'vehicleMaxSpeed': 80
+        }
+    })
+        .then(response => {
+            return response.data.routes[0].summary.travelTimeInSeconds
+        })
+        .catch(error => {
+            console.error(error)
+            return null
         })
 }

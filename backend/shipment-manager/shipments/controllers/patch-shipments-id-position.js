@@ -10,11 +10,18 @@ export default function makePatchShipmentsPositionById({ shipments, organization
             return res.status(400).send({ error: errors.malformedRequest })
         }
         let position = req.body.coordinates
-        let shipmentData = await shipments.getShipmentById(req.params.shipmentId)
-        if (!shipmentData) { return res.status(404).send({ error: errors.notFound }) }
-        if (shipmentData.editSecret !== req.query.editSecret) { return res.status(403).send({ error: errors.unauthorized }) }
-        shipmentData = { ...shipmentData, position }
-        let shipment = await shipments.saveShipment(shipmentData)
+        let shipment = await shipments.getShipmentById(req.params.shipmentId)
+        if (!shipment) { return res.status(404).send({ error: errors.notFound }) }
+        if (shipment.editSecret !== req.query.editSecret) { return res.status(403).send({ error: errors.unauthorized }) }
+        
+        shipment.position = position        
+        const now = new Date()
+        if (!shipment.eta) { shipment.eta = {} }
+        if (!shipment.eta.updatedAt || (shipment.eta.updatedAt - now) / 1000 / 60 > 5) {
+            shipment.eta.updatedAt = now
+            shipment.eta.value = await azureMaps.queryETA(shipment.position, shipment.destinationCoordinates)
+        }
+        shipment = await shipments.saveShipment(shipment)
         if (shipment) {
             res.status(200).send({ updated: shipment })
         } else {
