@@ -5,7 +5,6 @@ import makeShipmentsRouter from './shipments'
 import makeOrganizationsRouter from './organizations'
 import makeUsersRouter from './users'
 import makeEntities from './entities'
-import middleware from './middleware'
 
 makeApp().then(({ app }) => {
     app.listen(process.env.SHIPMENT_MANAGER_PORT, () => {
@@ -27,7 +26,7 @@ async function makeApp() {
     if (process.env.NODE_ENV === 'test') {
         db = client.db('test-database')
     } else {
-        db = client.db('shipments')
+        db = client.db('shipment-manager')
     }
 
     const entities = makeEntities(db)
@@ -35,11 +34,8 @@ async function makeApp() {
     const app = express()
 
     app.use(express.json({ limit: '8mb' }))
-    // unprotected
+
     app.use('/users', makeUsersRouter(entities))
-    
-    app.use(middleware.jwtAuth)
-    // protected
     app.use('/shipments', makeShipmentsRouter(entities))
     app.use('/organizations', makeOrganizationsRouter(entities))
 
