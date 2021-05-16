@@ -14,12 +14,13 @@ export default function makePatchShipmentsPositionById({ shipments, organization
         if (!shipment) { return errors.notFound(res) }
         if (shipment.editSecret !== req.query.editSecret) { return errors.unauthorized(res) }
         
-        shipment.position = position        
+        shipment.route.position = position        
         const now = new Date()
-        if (!shipment.eta) { shipment.eta = {} }
-        if (!shipment.eta.updatedAt || (shipment.eta.updatedAt - now) / 1000 / 60 > 5) {
-            shipment.eta.updatedAt = now
-            shipment.eta.value = await azureMaps.queryETA(shipment.position, shipment.destinationCoordinates)
+        if (!shipment.route.eta.updatedAt || (shipment.route.eta.updatedAt - now) / 1000 / 60 > 5) {
+            shipment.route.eta.updatedAt = now
+            const { eta, routePoints } = await azureMaps.queryRoute(shipment.route.position, shipment.route.destination.coordinates)
+            shipment.route.eta.value = eta
+            shipment.route.points = routePoints
         }
         shipment = await shipments.saveShipment(shipment)
         if (shipment) {

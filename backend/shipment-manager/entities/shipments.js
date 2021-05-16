@@ -50,7 +50,7 @@ function makeGetShipmentById(db) {
 
 function makeGetShipmentsBySenderOrganization(db) {
     return function getShipmentsBySenderOrganization(organization) {
-        return db.collection('shipments').find({ senderOrganization: organization}).toArray()
+        return db.collection('shipments').find({ 'sender.organization': organization}).toArray()
     }
 }
 

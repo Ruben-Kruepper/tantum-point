@@ -14,7 +14,7 @@ export default function makePatchShipmentsById({ shipments, organizations }) {
         if (!shipmentData) { return errors.notFound(res) }
         if (shipmentData.editSecret !== req.query.editSecret) { return errors.unauthorized(res) }
         shipmentData = { ...shipmentData, ...updateData }
-        shipmentData.destinationCoordinates = await azureMaps.queryAddressCoordinates(shipmentData.destinationAddress)
+        shipmentData.route.destination.coordinates = await azureMaps.queryAddressCoordinates(shipmentData.route.destination.address)
         let shipment = await shipments.saveShipment(shipmentData)
         if (shipment) {
             res.status(200).send({ updated: shipment })
