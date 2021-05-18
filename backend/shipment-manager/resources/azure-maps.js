@@ -3,6 +3,7 @@ import axios from 'axios'
 export default Object.freeze({
     queryAddressCoordinates,
     queryRoute,
+    getGreatCircleDistance
 })
 
 async function queryAddressCoordinates(address) {
@@ -39,7 +40,7 @@ async function queryRoute(position, destination) {
             eta.setSeconds(eta.getSeconds() + travelTime)
             let routePoints = []
             for (let i = 0; i < response.data.routes[0].legs[0].points.length; i = i + 3) {
-                routePoints.push(response.data.routes[0].legs[0].points[i])
+                routePoints.push({ lat: response.data.routes[0].legs[0].points[i].latitude, lon: response.data.routes[0].legs[0].points[i].longitude })
             }
             return {
                 eta,
@@ -50,4 +51,17 @@ async function queryRoute(position, destination) {
             console.error(error)
             return null
         })
+}
+
+function getGreatCircleDistance(from, to) {
+    const R = 6371
+    const phi1 = from.lat * Math.PI/180
+    const phi2 = to.lat * Math.PI/180
+    const dphi = (to.lat-from.lat) * Math.PI/180
+    const dlambda = (to.lon-from.lon) * Math.PI/180
+
+    const a = Math.sin(dphi/2) * Math.sin(dphi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(dlambda/2) * Math.sin(dlambda/2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+
+    return R * c 
 }

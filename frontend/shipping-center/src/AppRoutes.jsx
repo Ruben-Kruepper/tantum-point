@@ -38,7 +38,7 @@ export default function AppRoutes() {
 function AuthenticatedAppRoutes() {
     return (
         <Route path='/my/shipments-overview'>
-            {ShipmentsOverviewPage}
+            <ShipmentsOverviewPage />
         </Route>
     )
 }

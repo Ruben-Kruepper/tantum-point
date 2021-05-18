@@ -15,6 +15,7 @@ export default function makeShipmentsRouter(entities) {
     shipmentsRouter.post('/', controllers.postShipments)
     shipmentsRouter.patch('/:shipmentId', controllers.patchShipmentsById)
     shipmentsRouter.patch('/:shipmentId/position', controllers.patchShipmentsPositionById)
+    shipmentsRouter.post('/:shipmentId/delay', controllers.postShipmentsDelayById)
     
     shipmentsRouter.use(middleware.jwtAuth)
     // protected by jwt

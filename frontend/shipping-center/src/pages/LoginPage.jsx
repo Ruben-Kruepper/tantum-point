@@ -21,7 +21,7 @@ import useAuthContext from '../context/AuthContext'
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: 'auto',
-        marginTop: theme.spacing(12),
+        marginTop: theme.spacing(6),
         maxWidth: 400,
         padding: theme.spacing(4),
         // justifyContent: 'center'
@@ -45,13 +45,15 @@ export default function Login() {
     if (user) { return <Redirect to='/my/shipments-overview' /> }
     
     const checkUsername = () => {
-        console.log(username)
-        console.log(isValidUsername)
         setIsValidUsername(username && /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(username))
     }
     
     const userNameChangeCallback = (event) => {
         setUsername(event.target.value)
+    }
+
+    const passwordChangeCallback = (event) => {
+        setPassword(event.target.value)
     }
     
     const loginUser = () => {
@@ -94,7 +96,7 @@ export default function Login() {
                                 className={classes.textInput}
                                 type='password'
                                 color='secondary'
-                                onChange={setPassword}
+                                onChange={passwordChangeCallback}
                                 required />
                         </Grid>
                     </Grid>
@@ -104,7 +106,7 @@ export default function Login() {
                 <Button 
                     variant='contained' 
                     color='secondary'
-                    onClick={login}
+                    onClick={loginUser}
                     endIcon={<ArrowForward />}>Login</Button>
             </CardActions>
         </Card>

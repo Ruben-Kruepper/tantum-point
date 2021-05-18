@@ -55,9 +55,6 @@ export default StyleSheet.create({
     buttonRowContainer: {
         flexDirection: 'row',
         backgroundColor: 'grey',
-        borderTopColor: 'black',
-        borderBottomColor: 'black',
-        borderWidth: 2, 
         marginTop: 10
     }, 
     rowButton: {
@@ -65,8 +62,8 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         borderColor: 'black',
         borderWidth: 2,
-        borderRadius: 4, 
-        margin: 10,
+        borderRadius: 4,
+        padding: 10
     }, 
     rowButtonText: {
         fontSize: 24,
@@ -74,6 +71,6 @@ export default StyleSheet.create({
         textAlign: 'center'
     }, 
     detailsText: {
-        fontSize: 18
+        fontSize: 24
     }
 });

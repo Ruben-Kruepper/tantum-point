@@ -4,6 +4,7 @@ import { cyan, blueGrey } from '@material-ui/core/colors'
 
 import AppRoutes from './AppRoutes'
 import { AuthProvider } from './context/AuthContext'
+import { ShipmentManagerProvider } from './context/ShipmentManagerContext'
 
 
 const theme = createMuiTheme({
@@ -21,7 +22,9 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <AuthProvider>
-                <AppRoutes />
+                <ShipmentManagerProvider>
+                    <AppRoutes />
+                </ShipmentManagerProvider>
             </AuthProvider>
         </ThemeProvider>
     )

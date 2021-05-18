@@ -14,7 +14,8 @@ import useAuthContext from '../context/AuthContext'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1
+        flexGrow: 1,
+        marginBottom: theme.spacing(6)
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -40,11 +41,11 @@ export function HeaderBar(props) {
                     </Typography>
                     <ButtonGroup>
                         { user ? (
-                            <Button color='secondary' variant='text' href='/' onClick={logout}>Logout</Button>
-                            ) : (<>
-                                <Button color='secondary' variant='text' href='/login'>Login</Button>
-                                <Button color='secondary' variant='text' href='/register'>Register</Button>
-                            </>)
+                            <Button color='secondary' variant='text' onClick={logout}>Logout</Button>
+                            ) : ([
+                                <Button key='login' color='secondary' variant='text' href='/login'>Login</Button>,
+                                <Button key='register' color='secondary' variant='text' href='/register'>Register</Button>
+                            ])
                         }
                     </ButtonGroup>
                 </Toolbar>

@@ -14,9 +14,9 @@ import styles from '../styles'
 import config from '../config'
 
 export default ({ navigation, route }) => {
-    
+
     return (
-        <View style={styles.container}>
+        <View style={{ ...styles.container, padding: 0 }}>
             <Image
                 style={styles.reviewImage}
                 source={{ uri: `data:image/jpeg;base64,${route.params.image.base64}` }}
@@ -30,7 +30,7 @@ export default ({ navigation, route }) => {
     )
 }
 
-async function sendImage (navigation, route) {
+async function sendImage(navigation, route) {
     const response = await axios.post(
         config.shipmentsUrl,
         route.params.image.base64,
