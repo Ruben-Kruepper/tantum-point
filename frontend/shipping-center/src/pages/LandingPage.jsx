@@ -4,6 +4,6 @@ import {
 
 export default function LandingPage() {
     return (
-        <Typography>Welcome to Tantum Point</Typography>
+        <Typography style={{ textAlign: 'center' }} variant='h4'>Hello, Welcome to Tantum Point</Typography>
     )
 }

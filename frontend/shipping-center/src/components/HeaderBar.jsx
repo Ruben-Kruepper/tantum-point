@@ -5,8 +5,13 @@ import {
     Typography,
     Button,
     makeStyles,
-    ButtonGroup
+    ButtonGroup,
+    List,
+    ListItem,
+    ListItemText
 } from '@material-ui/core'
+
+import { Link } from 'react-router-dom'
 
 import { Menu } from '@material-ui/icons'
 import useAuthContext from '../context/AuthContext'
@@ -21,8 +26,18 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
-        flexGrow: 1,
+        paddingRight: theme.spacing(4)
     },
+    links: {
+        display: 'flex',
+    },
+    link: {
+        whiteSpace: 'nowrap'
+    },
+    buttonGroupEnd: {
+        flexGrow: 1,
+        justifyContent: 'flex-end'
+    }
 }))
 
 
@@ -39,14 +54,21 @@ export function HeaderBar(props) {
                     <Typography variant='h6' className={classes.title}>
                         Tantum Point Tracking
                     </Typography>
-                    <ButtonGroup>
-                        { user ? (
+                    <List className={classes.links} color='inherit'>
+                        <ListItem button className={classes.link} color='inherit' component={Link} to='/'>
+                            <ListItemText color='inherit'>Home</ListItemText>
+                        </ListItem>
+                        <ListItem button className={classes.link} color='inherit' component={Link} to='/my/shipments-overview'>
+                            <ListItemText color='inherit'>My Shipments</ListItemText>
+                        </ListItem>
+                    </List>
+                    <ButtonGroup className={classes.buttonGroupEnd}>
+                        {user ? (
                             <Button color='secondary' variant='text' onClick={logout}>Logout</Button>
-                            ) : ([
-                                <Button key='login' color='secondary' variant='text' href='/login'>Login</Button>,
-                                <Button key='register' color='secondary' variant='text' href='/register'>Register</Button>
-                            ])
-                        }
+                        ) : ([
+                            <Button key='login' color='secondary' variant='text' component={Link} to='/login'>Login</Button>,
+                            <Button key='register' color='secondary' variant='text' component={Link} to='/register'>Register</Button>
+                        ])}
                     </ButtonGroup>
                 </Toolbar>
             </AppBar>

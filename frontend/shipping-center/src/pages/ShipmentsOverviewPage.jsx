@@ -22,7 +22,8 @@ import {
     ExpandMore,
     ExpandLess,
     FiberManualRecord,
-    AccountCircle
+    AccountCircle,
+    Refresh
 } from '@material-ui/icons'
 
 import useShipmentManagerContext from '../context/ShipmentManagerContext'
@@ -70,7 +71,7 @@ export default function ShipmentsOverviewPage() {
             <Table aria-label='shipments table'>
                 <TableHead>
                     <TableRow>
-                        <TableCell />
+                        <TableCell><IconButton onClick={async () => setShipments(await apiMethods.getShipments())}><Refresh /></IconButton></TableCell>
                         <TableCell>Reference</TableCell>
                         <TableCell>Customer</TableCell>
                         <TableCell>Destination</TableCell>

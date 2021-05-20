@@ -14,7 +14,7 @@ export default function makePatchShipmentsPositionById({ shipments, organization
         if (!shipment) { return errors.notFound(res) }
         if (shipment.editSecret !== req.query.editSecret) { return errors.unauthorized(res) }
         if (shipment.route.delay) {
-            if (azureMaps.getGreatCircleDistance(shipment.route.delay.at, position) > 20) {
+            if (azureMaps.getGreatCircleDistance(shipment.route.delay.at, position) > 5) {
                 // remove delay and proceed to normal tracking
                 delete shipment.route.delay
             } else { // hasn't moved far enough, terminate here
@@ -23,7 +23,8 @@ export default function makePatchShipmentsPositionById({ shipments, organization
         }
         shipment.route.position = position
         const now = new Date()
-        if (!shipment.route.eta.updatedAt || (shipment.route.eta.updatedAt - now) / 1000 / 60 > 5) {
+        if (!shipment.route.eta.updatedAt || (now - shipment.route.eta.updatedAt) / 1000 > 15) {
+            console.log('updating position')
             shipment.route.eta.updatedAt = now
             const { eta, routePoints } = await azureMaps.queryRoute(shipment.route.position, shipment.route.destination.coordinates)
             shipment.route.eta.value = eta

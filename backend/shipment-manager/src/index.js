@@ -1,5 +1,6 @@
 import express from 'express'
 import { MongoClient } from 'mongodb'
+import cors from 'cors'
 
 import makeShipmentsRouter from './shipments'
 import makeOrganizationsRouter from './organizations'
@@ -7,9 +8,8 @@ import makeUsersRouter from './users'
 import makeEntities from './entities'
 
 makeApp().then(({ app }) => {
-    app.listen(process.env.SHIPMENT_MANAGER_PORT, () => {
-        console.log('----- Shipment Manager -----')
-        console.log(`Running on port ${process.env.SHIPMENT_MANAGER_PORT}`)
+    app.listen(process.env.PORT || 3000, () => {
+        console.log(`\n\nListening on ${process.env.PORT || 3000}`)
     })
 })
 
@@ -32,8 +32,11 @@ async function makeApp() {
     const entities = makeEntities(db)
 
     const app = express()
+    app.use(cors({ origin: 'http://demo.tantumpoint.com' }))
 
     app.use(express.json({ limit: '8mb' }))
+
+    app.get('/', (req, res) => res.send('Welcome to TTP'))
 
     app.use('/users', makeUsersRouter(entities))
     app.use('/shipments', makeShipmentsRouter(entities))

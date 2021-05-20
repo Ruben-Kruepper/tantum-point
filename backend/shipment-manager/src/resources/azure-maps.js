@@ -35,8 +35,8 @@ async function queryRoute(position, destination) {
     })
         .then(response => {
             let eta = new Date()
-            let travelTime = response.data.routes[0].summary.travelTimeInSeconds + 8 * 60 * 60
-            travelTime = travelTime + (Math.floor((travelTime / 3600) / 8) * 16)
+            let travelTime = response.data.routes[0].summary.travelTimeInSeconds + 16 * 60 * 60
+            travelTime = travelTime + (Math.floor((travelTime / 3600) / 7) * 16)
             eta.setSeconds(eta.getSeconds() + travelTime)
             let routePoints = []
             for (let i = 0; i < response.data.routes[0].legs[0].points.length; i = i + 3) {

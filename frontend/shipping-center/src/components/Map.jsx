@@ -71,7 +71,7 @@ export function Map(props) {
         }
     })
 
-    return (<div id='map' class={props.className}><LoadingFiller /></div>)
+    return (<div id='map' className={props.className}><LoadingFiller /></div>)
 }
 
 function externalScript(url, callback) {

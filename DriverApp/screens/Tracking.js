@@ -34,18 +34,17 @@ export default ({ navigation, route }) => {
                             editSecret: route.params.tracking.editSecret
                         }
                     }
-                )
+                ).catch(error => console.error(error.response.data))
                 setPosition(position)
-
+                console.log(position.coords)
             },
             console.error,
             {
-                distanceFilter: 0
+                distanceFilter: 0,
+                forceRequestLocation: true,
+                enableHighAccuracy: true
             }
         )
-        return () => {
-            Geolocation.clearWatch(watcherId)
-        }
     }, [])
     const postDelayReport = async () => {
         axios.post(
@@ -59,12 +58,12 @@ export default ({ navigation, route }) => {
                     until: resumeDateTime,
                     reason: delayReason
                 }
-            }, 
+            },
             {
                 params: {
                     editSecret: route.params.tracking.editSecret
                 }
-            })
+            }).catch(error => console.error(error.response.data))
         setShowDelayInterface(false)
     }
 
@@ -75,7 +74,7 @@ export default ({ navigation, route }) => {
                 <Text style={styles.detailsText}>{route.params.tracking.route.destination.address}</Text>
                 <Text style={{ ...styles.detailsText, fontWeight: 'bold' }}>Sender:</Text>
                 <Text style={styles.detailsText}>{route.params.tracking.sender.organization}</Text>
-                
+
                 <View style={styles.buttonRowContainer}>
                     <TouchableOpacity
                         style={styles.rowButton}
@@ -90,7 +89,7 @@ export default ({ navigation, route }) => {
                     onDateChange={setResumeDateTime}
                     mode='datetime'
                     minuteInterval={30}
-                    style={{alignSelf: 'center'}}
+                    style={{ alignSelf: 'center' }}
                 />
                 <Text style={styles.inputName}>Reason (Optional)</Text>
                 <TextInput
@@ -101,15 +100,15 @@ export default ({ navigation, route }) => {
                     maxHeight={90}
                     numberOfLines={2}
                 />
-                <Text style={{fontSize: 20}}>We automatically remove this delay if you get back on the road early.</Text>
+                <Text style={{ fontSize: 20 }}>We automatically remove this delay if you get back on the road early.</Text>
                 <View style={styles.buttonRowContainer}>
                     <TouchableOpacity
-                        style={{...styles.rowButton }}
+                        style={{ ...styles.rowButton }}
                         onPress={postDelayReport} >
                         <Text style={styles.rowButtonText}>SEND</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={{...styles.rowButton }}
+                        style={{ ...styles.rowButton }}
                         onPress={() => { setShowDelayInterface(false) }} >
                         <Text style={styles.rowButtonText}>CANCEL</Text>
                     </TouchableOpacity>

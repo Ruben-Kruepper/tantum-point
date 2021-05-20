@@ -40,7 +40,7 @@ function extractShipmentData(ocrData) {
                 address: 'DIAMOND BUSINESS PARK, SZAMOTY, 02-495, WARSAW, POLAND'
             }, 
             eta: {
-                targetDeliveryDate: new Date('05-16-2021')
+                targetDeliveryDate: new Date('05-30-2021')
             }
         },
         destination: {},
@@ -56,11 +56,12 @@ function extractShipmentData(ocrData) {
             conditions: {
                 Versand: 'Truck-Tank',
                 Lieferung: 'CCI Warsaw',
-                Verladedatum: '10.05.2021',
-                Lieferdatum: '15.05.2021'
+                Verladedatum: '20.05.2021',
+                Lieferdatum: '30.05.2021'
             },
             subscribers: [
-                'logistics.manager@example.com'
+                'logistics.manager@example.com',
+                'destination.accountmanager@example.com'
             ]
         }
     }
